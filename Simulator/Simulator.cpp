@@ -96,7 +96,7 @@ void Simulator::run(const String &envPath) {
     Cmd::run(argc, argv);
 }
 
-void Simulator::debug() {
+void Simulator::debug() {   //读入一个算例
     Task task;
     task.instSet = "";
     task.instId = "rand.g80b25f200h1440";
@@ -112,7 +112,7 @@ void Simulator::debug() {
     run(task);
 }
 
-void Simulator::benchmark(int repeat) {
+void Simulator::benchmark(int repeat) {   //读入多个算例
     Task task;
     task.instSet = "";
     //task.timeout = "180";
@@ -138,7 +138,7 @@ void Simulator::benchmark(int repeat) {
     }
 }
 
-void Simulator::parallelBenchmark(int repeat) {
+void Simulator::parallelBenchmark(int repeat) {   //并行读入多个算例
     Task task;
     task.instSet = "";
     //task.timeout = "180";
@@ -170,43 +170,99 @@ void Simulator::parallelBenchmark(int repeat) {
 void Simulator::generateInstance(const InstanceTrait &trait) {
     Random rand;
 
-    int gateNum = rand.pick(trait.gateNum.begin, trait.gateNum.end);
-    int flightNum = rand.pick(trait.flightNum.begin, trait.flightNum.end);
+	//算例生成者设置图的节点数、边数、图的节点最大度
+	int nodeNum = 1000;
+	int edgeNum = 20000;
+	int degreeMax = 50;
+	int degreeCons = rand.pick(trait.degreeCons.begin,trait.degreeCons.end);
 
-    Problem::Input input;
-    input.mutable_airport()->set_bridgenum(rand.pick(trait.bridgeNum.begin, trait.bridgeNum.end));
-    for (int g = 0; g < gateNum; ++g) {
-        auto &gate(*input.mutable_airport()->add_gates());
-        gate.set_id(g);
-        gate.set_mingap(30);
-    }
-    for (auto f = 0; f < flightNum; ++f) {
-        auto &flight(*input.add_flights());
-        flight.set_id(f);
+	vector<int> nodeDegree(nodeNum, 0);     //nodeDegree数组记录节点的度
 
-        int turnaroudLen = rand.pick(trait.turnaroundLen.begin, trait.turnaroundLen.end);
-        if (turnaroudLen > 3 * 60) { // reduce long turnaround.
-            turnaroudLen = rand.pick(trait.turnaroundLen.begin, trait.turnaroundLen.end);
-        }
-        int turnaroundBegin = rand.pick(0, trait.horizonLen - turnaroudLen);
-        flight.mutable_turnaround()->set_begin(turnaroundBegin);
-        flight.mutable_turnaround()->set_end(turnaroundBegin + turnaroudLen);
+	Problem::Input input;
+	input.set_maxdegree(degreeCons);          //设置算例的节点约束值
+	for (int n = 0; n < nodeNum; ++n) {       //算例无向图的节点列表
+		input.mutable_graph()->add_nodes(n);
+	}
 
-        int incompatibleGateNum = rand.pick(trait.incompatibleGateNumPerFlight.begin, trait.incompatibleGateNumPerFlight.end);
-        Sampling sample(rand, incompatibleGateNum);
-        List<int> pickedGates(incompatibleGateNum + 1);
-        for (auto g = 0; g < gateNum; ++g) { pickedGates[sample.isPicked()] = g; }
-        for (auto ig = 1; ig <= incompatibleGateNum; ++ig) {
-            flight.add_incompatiblegates(pickedGates[ig]);
-        }
-    }
+	int edgeNumDyna = 0;                //记录边的总数
+	for (int e = 0; e < nodeNum - 1; ++e) {   //确保算例中无向图是连通图
+		auto &edge(*input.mutable_graph()->add_edges());
+		edge.set_id(edgeNumDyna++);
+		edge.set_source(e);
+		edge.set_target(e + 1);
+		edge.set_length(rand.pick(trait.edgeLength.begin, trait.edgeLength.end));
+		nodeDegree[e]++;						//更新节点的度
+		nodeDegree[e + 1]++;
+	}
+
+	int resEdges = edgeNum - edgeNumDyna;  //无向图中边的条数不足以构成连通图，程序中止
+	if (resEdges < 0) {
+		assert(false);
+	}
+
+	vector<int> nodeFlag(nodeNum, -1);     //记录超过度给定值的节点是否被累加过
+	int degreeMaxNodeNum = 0;              ////记录节点的度达到给定值的个数
+	for (int e = 0; e < resEdges; ++e) {
+		if (degreeMaxNodeNum == nodeNum)break;
+		auto &edge(*input.mutable_graph()->add_edges());
+		edge.set_id(edgeNumDyna++);
+
+		while (true)
+		{
+			int source = rand.pick(0, nodeNum);
+			if (nodeDegree[source] == degreeMax)   //此节点的度达到了最大值
+			{
+				if (nodeFlag[source] == -1)
+				{
+					degreeMaxNodeNum++;
+					nodeFlag[source] = 0;
+				}
+			}
+			else
+			{
+				edge.set_source(source);
+				break;
+			}
+		}
+
+		while (true)
+		{
+			int target = rand.pick(0, nodeNum);
+			if (target == edge.source());     //禁止形成自环
+			else
+			{
+				if (nodeDegree[target] == degreeMax)   //此节点的度达到了最大值
+				{
+					if (nodeFlag[target] == -1)
+					{
+						degreeMaxNodeNum++;
+						nodeFlag[target] = 0;
+					}
+				}
+				else
+				{
+					edge.set_target(target);
+					break;
+				}
+			}
+
+		}
+
+		edge.set_length(rand.pick(trait.edgeLength.begin, trait.edgeLength.end));
+
+		nodeDegree[edge.source()]++;						//更新节点的度
+		nodeDegree[edge.target()]++;
+	}
+
+	for (int e = 0; e < nodeDegree.size(); ++e) {  
+		cout << nodeDegree[e] << endl;
+	}
 
     ostringstream path;
-    path << InstanceDir() << "rand.g" << input.airport().gates().size()
-        << "b" << input.airport().bridgenum()
-        << "f" << input.flights().size()
-        << "h" << trait.horizonLen << ".json";
-    save(path.str(), input);
+	path << InstanceDir() << "rand.v" << input.graph().nodes().size()
+        << "e" << input.graph().edges().size()
+        << "dc" << input.maxdegree() << ".json";
+    pb::save(path.str(), input);
 }
 
 }

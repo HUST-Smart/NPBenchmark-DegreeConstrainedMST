@@ -16,7 +16,7 @@
 
 #include "Common.h"
 #include "PbReader.h"
-#include "GateAssignment.pb.h"
+#include "DegreeConstrainedMST.pb.h"
 
 
 namespace szx {
@@ -24,42 +24,38 @@ namespace szx {
 class Problem {
     #pragma region Type
 public:
-    struct Input : public pb::GateAssignment::Input {
+    struct Input : public xxf::Input {
         bool load(const String &path) { return pb::load(path, *this); }
     };
 
-    struct Output : public pb::GateAssignment::Output {
-        bool save(const String &path, pb::Submission &submission) const {
+    struct Output : public xxf::Output {
+        bool save(const String &path, xxf::Submission &submission) const {
             std::ofstream ofs(path);
             if (!ofs.is_open()) { return false; }
 
             // TODO[0]: fill the submission information.
-            submission.set_author("szx");
-            submission.set_algorithm("rand");
-            submission.set_cpu("Intel Core i5-7400 3.00GHz");
-            submission.set_ram("16G 2400MHz");
+            submission.set_author("xxf");
+			submission.set_algorithm("rand");
+            submission.set_cpu("AMD Athlon X4 640 Processor 3.00GHz");
+            submission.set_ram("4G 1333MHz");
             submission.set_language("C++");
             submission.set_compiler("VS2017");
             submission.set_os("Windows 10");
-            submission.set_problem("GateAssignment");
+            submission.set_problem("PipelinePlanning");
 
-            ofs << protobufToJson(submission, false) << std::endl << protobufToJson(*this);
+            ofs << pb::protobufToJson(submission, false) << std::endl << pb::protobufToJson(*this);
             return true;
         }
-
-        ID flightNumOnBridge = 0;
     };
     #pragma endregion Type
 
     #pragma region Constant
 public:
-    enum {
-        MaxGateNum = 100,
-        MaxBridgeNum = 30,
-        MaxFlightNum = 400,
-
-        InvalidId = -1,
-    };
+	enum {
+		//图的边的最大值，算例的度约束最大值
+		MaxEdgeLength = 50,
+		MaxDegreeCons = 7,
+	};
     #pragma endregion Constant
 
     #pragma region Constructor

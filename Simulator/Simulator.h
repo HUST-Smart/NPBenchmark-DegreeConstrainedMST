@@ -38,13 +38,9 @@ public:
         String runId;
     };
 
-    struct InstanceTrait {
-        int horizonLen = 24 * 60;
-        Interval<int> gateNum = Interval<int>(60, Problem::MaxGateNum);
-        Interval<int> bridgeNum = Interval<int>(20, Problem::MaxBridgeNum);
-        Interval<int> flightNum = Interval<int>(100, Problem::MaxFlightNum);
-        Interval<int> incompatibleGateNumPerFlight = Interval<int>(0, 8);
-        Interval<int> turnaroundLen = Interval<int>(40, 8 * 60);
+    struct InstanceTrait {       //数据约定
+        Interval<int> edgeLength = Interval<int>(1, Problem::MaxEdgeLength);
+        Interval<int> degreeCons = Interval<int>(2, Problem::MaxDegreeCons);
     };
     #pragma endregion Type
 

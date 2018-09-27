@@ -1,0 +1,54 @@
+// # 概述
+// 使用 Google 的 Protocol Buffer 定义管道规划（度约束的最小生成树）输入输出数据格式
+// Input 定义了算法所需的全部输入数据
+// Output 定义了算法所需的全部输出数据
+// Submission 定义了信息摘要文件
+// UndirectedGraph 定义了 Input 中使用的无向图信息
+// Edge 定义了 UndirectedGraph 和 Output 中使用的图的边信息
+
+syntax = "proto3";
+package xxf;
+
+message Input {   //度约束的最小生成树的输入数据（即算例）
+	UndirectedGraph graph = 1;     //无向图
+	int32 maxDegree = 2;   //度的最大值   
+}
+
+message Output {   //度约束的最小生成树的输出数据
+	repeated Edge edges = 1;  //最小生成树包含的边列表
+}
+
+message UndirectedGraph {       //无向图信息
+	repeated int32 nodes = 1;   //节点列表
+	repeated Edge edges = 2;   //边列表
+}
+
+message Edge {          //图的边信息
+	int32 id = 1;    //从0开始连续编号的内部唯一标识
+	int32 source = 2;  //边的源节点
+	int32 target = 3;  //边的目标节点
+	int32 length = 4;   //边的长度
+}
+
+
+message Submission { // 测评系统提交信息摘要.
+    // 应在 SDK 内由提交者手工填写的数据项.
+    string author = 1; // 提交者姓名.
+    string algorithm = 2; // 算法名称.
+    string thread = 3; // 算法线程数
+    string cpu = 4; // 处理器型号与主频.
+    string ram = 5; // 内存容量与频率. (Windows 下可以使用 wmic memorychip 命令查看)
+    string language = 6; // 编程语言.
+    string compiler = 7; // 编译器.
+    string os = 8; // 操作系统
+
+    // 由 SDK 自动记录的数据项.
+    string problem = 21; // 问题名称.
+    string instance = 22; // 算例名称.
+    string duration = 23; // 求解耗时.
+
+    // 由服务器自动计算的数据项.
+    double obj = 31; // 计算结果目标函数值.
+    string email = 32; // 提交者邮箱.
+    string date = 33; // 提交时间.
+}

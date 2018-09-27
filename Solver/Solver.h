@@ -46,7 +46,7 @@ public:
         static String AuthorNameSwitch() { return "-name"; }
         static String HelpSwitch() { return "-h"; }
 
-        static String AuthorName() { return "szx"; }
+        static String AuthorName() { return "xxf"; }
         static String HelpInfo() {
             return "Pattern (args can be in any order):\n"
                 "  exe (-p path) (-o path) [-s int] [-t seconds] [-name]\n"
@@ -142,9 +142,9 @@ public:
 
         String solutionPathWithTime() const { return slnPath + "." + localTime; }
 
-        String visualizPath() const { return DefaultVisualizationDir() + friendlyInstName() + "." + localTime + ".html"; }
-        template<typename T>
-        String visualizPath(const T &msg) const { return DefaultVisualizationDir() + friendlyInstName() + "." + localTime + "." + std::to_string(msg) + ".html"; }
+        //String visualizPath() const { return DefaultVisualizationDir() + friendlyInstName() + "." + localTime + ".html"; }
+        //template<typename T>
+        //String visualizPath(const T &msg) const { return DefaultVisualizationDir() + friendlyInstName() + "." + localTime + "." + std::to_string(msg) + ".html"; }
         String friendlyInstName() const { // friendly to file system (without special char).
             auto pos = instPath.find_last_of('/');
             return (pos == String::npos) ? instPath : instPath.substr(pos + 1);
