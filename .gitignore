@@ -250,7 +250,3 @@ ModelManifest.xml
 /Deploy/Solution/*.json*
 /Deploy/Visualization/*.html
 /Lib/protobuf
-/Deploy/Instance/rand.v50e700dc4.json
-/Deploy/Instance/rand.v1000e20000dc6.json
-/Deploy/Instance/rand.g80b25f200h1440.json
-/Deploy/Instance/rand.g4b2f8h480.json
