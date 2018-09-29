@@ -249,3 +249,6 @@ ModelManifest.xml
 /Deploy/log.csv
 /Deploy/Solution/*.json*
 /Deploy/Visualization/*.html
+/Lib/protobuf
+/Deploy/Instance/rand.v50e700dc4.json
+/Deploy/Instance/rand.v1000e20000dc6.json

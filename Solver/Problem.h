@@ -21,55 +21,57 @@
 
 namespace szx {
 
-class Problem {
-    #pragma region Type
-public:
-    struct Input : public xxf::Input {
-        bool load(const String &path) { return pb::load(path, *this); }
-    };
+	class Problem {
+#pragma region Type
+	public:
+		struct Input : public xxf::Input {
+			bool load(const String &path) { return pb::load(path, *this); }
+		};
 
-    struct Output : public xxf::Output {
-        bool save(const String &path, xxf::Submission &submission) const {
-            std::ofstream ofs(path);
-            if (!ofs.is_open()) { return false; }
+		struct Output : public xxf::Output {
+			bool save(const String &path, xxf::Submission &submission) const {
+				std::ofstream ofs(path);
+				if (!ofs.is_open()) { return false; }
 
-            // TODO[0]: fill the submission information.
-            submission.set_author("xxf");
-			submission.set_algorithm("rand");
-            submission.set_cpu("AMD Athlon X4 640 Processor 3.00GHz");
-            submission.set_ram("4G 1333MHz");
-            submission.set_language("C++");
-            submission.set_compiler("VS2017");
-            submission.set_os("Windows 10");
-            submission.set_problem("PipelinePlanning");
+				// TODO[0]: fill the submission information.
+				submission.set_author("xxf");
+				submission.set_algorithm("rand");
+				submission.set_cpu("AMD Athlon X4 640 Processor 3.00GHz");
+				submission.set_ram("4G 1333MHz");
+				submission.set_language("C++");
+				submission.set_compiler("VS2017");
+				submission.set_os("Windows 10");
+				submission.set_problem("PipelinePlanning");
 
-            ofs << pb::protobufToJson(submission, false) << std::endl << pb::protobufToJson(*this);
-            return true;
-        }
-    };
-    #pragma endregion Type
+				ofs << pb::protobufToJson(submission, false) << std::endl << pb::protobufToJson(*this);
+				return true;
+			}
 
-    #pragma region Constant
-public:
-	enum {
-		//图的边的最大值，算例的度约束最大值
-		MaxEdgeLength = 50,
-		MaxDegreeCons = 7,
-	};
-    #pragma endregion Constant
+			Length edgeLengthSumOnTree = 0;
+		};
+#pragma endregion Type
 
-    #pragma region Constructor
-public:
-    #pragma endregion Constructor
+#pragma region Constant
+	public:
+		enum {
+			//图的边的最大值，算例的度约束最大值
+			MaxEdgeLength = 50,
+			MaxDegreeCons = 7,
+		};
+#pragma endregion Constant
 
-    #pragma region Method
-public:
-    #pragma endregion Method
+#pragma region Constructor
+	public:
+#pragma endregion Constructor
 
-    #pragma region Field
-public:
-    #pragma endregion Field
-}; // Problem
+#pragma region Method
+	public:
+#pragma endregion Method
+
+#pragma region Field
+	public:
+#pragma endregion Field
+	}; // Problem
 
 }
 
