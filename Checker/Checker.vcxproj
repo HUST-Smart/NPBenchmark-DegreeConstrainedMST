@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Solver\GateAssignment.pb.cc" />
+    <ClCompile Include="..\Solver\DegreeConstrainedMST.pb.cc" />
+    <ClCompile Include="CheckConstraints.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Solver\GateAssignment.pb.h" />
+    <ClInclude Include="..\Solver\DegreeConstrainedMST.pb.h" />
     <ClInclude Include="..\Solver\PbReader.h" />
+    <ClInclude Include="CheckConstraints.h" />
     <ClInclude Include="Visualizer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
