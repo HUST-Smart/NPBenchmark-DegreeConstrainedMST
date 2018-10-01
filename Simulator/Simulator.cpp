@@ -99,7 +99,7 @@ namespace szx {
 	void Simulator::debug() {   //¶ÁÈëÒ»¸öËãÀı
 		Task task;
 		task.instSet = "";
-		task.instId = "rand.g80b25f200h1440";
+		task.instId = "rand.v50e400dc3";
 		task.randSeed = "1500972793";
 		//task.randSeed = to_string(RandSeed::generate());
 		task.timeout = "180";
@@ -126,7 +126,7 @@ namespace szx {
 		random_device rd;
 		mt19937 rgen(rd());
 		// EXTEND[szx][5]: read it from InstanceList.txt.
-		vector<String> instList({ "rand.g4b2f8h480", "rand.g80b25f200h1440" });
+		vector<String> instList({ "rand.v50e400dc3", "rand.v200e5000dc2" });
 		for (int i = 0; i < repeat; ++i) {
 			//shuffle(instList.begin(), instList.end(), rgen);
 			for (auto inst = instList.begin(); inst != instList.end(); ++inst) {
@@ -154,7 +154,7 @@ namespace szx {
 		random_device rd;
 		mt19937 rgen(rd());
 		// EXTEND[szx][5]: read it from InstanceList.txt.
-		vector<String> instList({ "rand.g4b2f8h480", "rand.g80b25f200h1440" });
+		vector<String> instList({ "rand.v50e400dc3", "rand.v200e5000dc2" });
 		for (int i = 0; i < repeat; ++i) {
 			//shuffle(instList.begin(), instList.end(), rgen);
 			for (auto inst = instList.begin(); inst != instList.end(); ++inst) {

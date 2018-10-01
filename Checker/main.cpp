@@ -5,6 +5,7 @@
 
 //#include "Visualizer.h"
 
+#include"CheckConstraints.h"
 #include "../Solver/PbReader.h"
 #include "../Solver/DegreeConstrainedMST.pb.h"
 //#include "../Solver/GateAssignment.pb.h"
@@ -30,7 +31,7 @@ int main(int argc, char *argv[]) {
 		inputPath = argv[1];
 	}
 	else {
-		cout << "input path: " << flush;
+	cout << "input path: " << flush;
 		cin >> inputPath;
 	}
 
@@ -38,7 +39,7 @@ int main(int argc, char *argv[]) {
 		outputPath = argv[2];
 	}
 	else {
-		cout << "output path: " << flush;
+		cout << "output path: "<< flush;
 		cin >> outputPath;
 	}
 
@@ -79,30 +80,40 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	// check constrains
-
-
-
-	int error = 0;
-	int flightNumOnBridge = 0;
-	if (output.assignments().size() != input.flights().size()) { error |= CheckerFlag::FormatError; }  //按位操作赋值为error
-	int f = 0;
-	for (auto gate = output.assignments().begin(); gate != output.assignments().end(); ++gate, ++f) {
-		// check constraints.
-		if ((*gate < 0) || (*gate >= input.airport().gates().size())) { error |= CheckerFlag::FlightNotAssignedError; }
-		for (auto ig = input.flights(f).incompatiblegates().begin(); ig != input.flights(f).incompatiblegates().end(); ++ig) {
-			if (*gate == *ig) { error |= CheckerFlag::IncompatibleAssignmentError; }
-		}
-		const auto &flight(input.flights(f));
-		for (auto flight1 = input.flights().begin(); flight1 != input.flights().end(); ++flight1) {
-			if (*gate != output.assignments(flight1->id())) { continue; }
-			int gap = max(flight.turnaround().begin() - flight1->turnaround().end(),
-				flight1->turnaround().begin() - flight.turnaround().begin());
-			if (gap < input.airport().gates(*gate).mingap()) { error |= CheckerFlag::FlightOverlapError; }
-		}
-
-		// check objective.
-		if (*gate < input.airport().bridgenum()) { ++flightNumOnBridge; }
+	xxf::CheckConstraints checkcons(output, input);
+	if (!checkcons.checkLoop()) { error |= CheckerFlag::LoopExistError; }
+	std::cout << checkcons.checkNodeDegree() << std::endl;
+	if (checkcons.checkNodeDegree() == 1) { error |= CheckerFlag::DegreeOverError; }
+	else if (checkcons.checkNodeDegree() == 2) { error |= CheckerFlag::NodeNotCorveredError; }
+	else if (checkcons.checkNodeDegree() == 3) 
+	{ 
+		error |= CheckerFlag::DegreeOverError; 
+		error |= CheckerFlag::NodeNotCorveredError;
 	}
+	else;
+	edgeLengthSumOnTree = checkcons.GetObj();
+
+	//int error = 0;
+	//int flightNumOnBridge = 0;
+	//if (output.assignments().size() != input.flights().size()) { error |= CheckerFlag::FormatError; }  //按位操作赋值为error
+	//int f = 0;
+	//for (auto gate = output.assignments().begin(); gate != output.assignments().end(); ++gate, ++f) {
+	//	// check constraints.
+	//	if ((*gate < 0) || (*gate >= input.airport().gates().size())) { error |= CheckerFlag::FlightNotAssignedError; }
+	//	for (auto ig = input.flights(f).incompatiblegates().begin(); ig != input.flights(f).incompatiblegates().end(); ++ig) {
+	//		if (*gate == *ig) { error |= CheckerFlag::IncompatibleAssignmentError; }
+	//	}
+	//	const auto &flight(input.flights(f));
+	//	for (auto flight1 = input.flights().begin(); flight1 != input.flights().end(); ++flight1) {
+	//		if (*gate != output.assignments(flight1->id())) { continue; }
+	//		int gap = max(flight.turnaround().begin() - flight1->turnaround().end(),
+	//			flight1->turnaround().begin() - flight.turnaround().begin());
+	//		if (gap < input.airport().gates(*gate).mingap()) { error |= CheckerFlag::FlightOverlapError; }
+	//	}
+
+	//	// check objective.
+	//	if (*gate < input.airport().bridgenum()) { ++flightNumOnBridge; }
+	//}
 
 	// visualize solution.
 	//double pixelPerMinute = 1;
@@ -131,5 +142,5 @@ int main(int argc, char *argv[]) {
 	//}
 	//draw.end();
 
-	return (error == 0) ? flightNumOnBridge : ~error;
+	return (error == 0) ? edgeLengthSumOnTree : ~error;
 }

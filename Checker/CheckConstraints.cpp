@@ -36,6 +36,8 @@ namespace xxf {
 			Degree[edgeOnTree->source()]++;  //节点度加1
 			Degree[edgeOnTree->target()]++;
 
+			obj += edgeOnTree->length();
+
 			int sp = findParent(edgeOnTree->source());   //判断是否有环
 			int tp = findParent(edgeOnTree->target());
 			if (sp == tp) {
@@ -72,5 +74,9 @@ namespace xxf {
 			if (degreeconsFlag)return 2;   //满足度约束，不满足节点覆盖约束
 			else return 3;    //两个约束都不满足
 		}
+	}
+
+	int CheckConstraints::GetObj() {
+		return obj;
 	}
 }

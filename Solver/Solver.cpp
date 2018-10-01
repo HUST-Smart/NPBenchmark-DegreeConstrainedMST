@@ -233,11 +233,11 @@ namespace szx {
 	bool Solver::check(Length &checkerObj) const {
 #if SZX_DEBUG
 		enum CheckerFlag {
-			IoError = 0x0,
+			IoError = 0x0,             //十六进制数，可以直接通过判断IoError|FormatError的数值来确定哪个出错
 			FormatError = 0x1,
-			FlightNotAssignedError = 0x2,
-			IncompatibleAssignmentError = 0x4,
-			FlightOverlapError = 0x8
+			NodeNotCorveredError = 0x2,
+			LoopExistError = 0x4,
+			DegreeOverError = 0x8
 		};
 
 		checkerObj = System::exec("Checker.exe " + env.instPath + " " + env.solutionPathWithTime());
@@ -245,9 +245,9 @@ namespace szx {
 		checkerObj = ~checkerObj;
 		if (checkerObj == CheckerFlag::IoError) { Log(LogSwitch::Checker) << "IoError." << endl; }
 		if (checkerObj & CheckerFlag::FormatError) { Log(LogSwitch::Checker) << "FormatError." << endl; }
-		if (checkerObj & CheckerFlag::FlightNotAssignedError) { Log(LogSwitch::Checker) << "FlightNotAssignedError." << endl; }
-		if (checkerObj & CheckerFlag::IncompatibleAssignmentError) { Log(LogSwitch::Checker) << "IncompatibleAssignmentError." << endl; }
-		if (checkerObj & CheckerFlag::FlightOverlapError) { Log(LogSwitch::Checker) << "FlightOverlapError." << endl; }
+		if (checkerObj & CheckerFlag::NodeNotCorveredError) { Log(LogSwitch::Checker) << "NodeNotCorveredError." << endl; }
+		if (checkerObj & CheckerFlag::LoopExistError) { Log(LogSwitch::Checker) << "LoopExistError." << endl; }
+		if (checkerObj & CheckerFlag::DegreeOverError) { Log(LogSwitch::Checker) << "DegreeOverError." << endl; }
 		return false;
 #else
 		checkerObj = 0;
