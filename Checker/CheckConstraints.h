@@ -12,9 +12,9 @@ class CheckConstraints
 	#pragma region Type
 public:
 	xxf::Input inputins;      //输入算例
-	xxf::Output outputsolve;     //输出结果
-	std::vector<int> Parent;   //记录父节点的一维数组
+	std::vector<std::vector<xxf::Edge>> AdjList;   //输出结果图的邻接表
 	std::vector<int> Degree;   //记录节点的度数组
+	std::vector<bool> visited;   //标记节点是否被访问
 	int obj;
 	#pragma endregion Type
 
@@ -24,14 +24,8 @@ public:
 	#pragma region Constructor
 
 public:
-	CheckConstraints(const xxf::Output &output,const xxf::Input &input) {  //初始化算例和输出结果
-		inputins = input;
-		outputsolve = output;
-		obj = 0;
-	}
-	void initSet();//初始化ParentAndDegree数组
-	int findParent(int node); //递归查找父亲节点
-	void UnionSet(int source, int target);//将新节点加入集合
+	CheckConstraints(const xxf::Output &output, const xxf::Input &input); //初始化算例和输出结果
+	bool isCyclicUtil(int node, int parent);
 	int GetObj();
 
 	#pragma endregion Constructor
@@ -39,8 +33,8 @@ public:
 	#pragma region method
 
 public:
-	bool checkLoop();
-	int checkNodeDegree();
+	bool isCyclic();   //判断是否有环存在
+	int checkNodeDegree();    //判断节点的度是否符合要求
 
 	#pragma endregion method
 

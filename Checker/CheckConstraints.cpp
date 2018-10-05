@@ -1,52 +1,55 @@
 #include<vector>
 #include<iostream>
 
-#include "CheckConstraints.h"
+#include"CheckConstraints.h"
 
 namespace xxf {
 	
-	void CheckConstraints::initSet() {
+	CheckConstraints::CheckConstraints(const xxf::Output &output, const xxf::Input &input) {
+		inputins = input;
+		obj = 0;
 		for (int n = 0; n < inputins.graph().nodes().size(); n++)
 		{
-			Parent.push_back(-1); //初始化每个节点的父节点记为-1和每个节点的度为0
-			Degree.push_back(0);
+			AdjList.push_back(std::vector<xxf::Edge>());    //邻接表添加一维向量
+			Degree.push_back(0);                           //初始化每个节点的度为0
+			visited.push_back(false);                     //初始化访问标记
 		}
-	}
-
-	int CheckConstraints::findParent(int node) {
-		
-		if (Parent[node] == -1)return node;
-		return findParent(Parent[node]);
-	}
-
-	void CheckConstraints::UnionSet(int source, int target) {
-		
-		int sourceParent = findParent(source);
-		int targetParent = findParent(target);
-		Parent[sourceParent] = targetParent;
-	
-	}
-
-	bool CheckConstraints::checkLoop() {
-	
-		bool flag = true;   //记录是否有环的标记
-		initSet();
-		for (auto edgeOnTree = outputsolve.edges().begin(); edgeOnTree != outputsolve.edges().end(); ++edgeOnTree)
+		for (auto edgeOnTree = output.edges().begin(); edgeOnTree != output.edges().end(); ++edgeOnTree)   //邻接表初始化,更新每个节点的度
 		{
-			Degree[edgeOnTree->source()]++;  //节点度加1
-			Degree[edgeOnTree->target()]++;
-
-			obj += edgeOnTree->length();
-
-			int sp = findParent(edgeOnTree->source());   //判断是否有环
-			int tp = findParent(edgeOnTree->target());
-			if (sp == tp) {
-				std::cout << "Exist loop." << std::endl;
-				flag = false;
-			}
-			UnionSet(edgeOnTree->source(), edgeOnTree->target());
+			Edge edge;
+			edge.set_id(edgeOnTree->id());
+			edge.set_source(edgeOnTree->source());
+			edge.set_target(edgeOnTree->target());
+			edge.set_length(edgeOnTree->length());
+			Degree[edge.source()]++;
+			Degree[edge.target()]++;
+			AdjList[edge.source()].push_back(edge);
+			AdjList[edge.target()].push_back(edge);
+			obj += edge.length();
 		}
-		return flag;
+	}
+
+	bool CheckConstraints::isCyclicUtil(int node, int parent)
+	{
+		visited[node] = true;
+		for (int i = 0; i < AdjList[node].size(); i++)
+		{
+			if (!visited[AdjList[node][i].target()])
+			{
+				if (isCyclicUtil(AdjList[node][i].target(), node))return true;
+			}
+			else if (AdjList[node][i].target() == parent)return true;
+		}
+		return false;
+	}
+
+	bool CheckConstraints::isCyclic()
+	{
+		for (int u = 0; u < inputins.graph().nodes().size(); u++)
+			if (!visited[u])
+				if (isCyclicUtil(u, -1))return true;
+		std::cout << "Exist loop." << std::endl;
+		return false;
 	}
 
 	int CheckConstraints::checkNodeDegree() {

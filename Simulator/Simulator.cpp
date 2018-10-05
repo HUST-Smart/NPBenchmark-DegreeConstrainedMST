@@ -126,7 +126,7 @@ namespace szx {
 		random_device rd;
 		mt19937 rgen(rd());
 		// EXTEND[szx][5]: read it from InstanceList.txt.
-		vector<String> instList({ "rand.v50e400dc3", "rand.v200e5000dc2" });
+		vector<String> instList({ "rand.v50e400dc3", "rand.v200e5000dc2" ,"rand.v1000e20000dc4"});
 		for (int i = 0; i < repeat; ++i) {
 			//shuffle(instList.begin(), instList.end(), rgen);
 			for (auto inst = instList.begin(); inst != instList.end(); ++inst) {
@@ -154,7 +154,7 @@ namespace szx {
 		random_device rd;
 		mt19937 rgen(rd());
 		// EXTEND[szx][5]: read it from InstanceList.txt.
-		vector<String> instList({ "rand.v50e400dc3", "rand.v200e5000dc2" });
+		vector<String> instList({ "rand.v50e400dc3", "rand.v200e5000dc2"  ,"rand.v1000e20000dc4" });
 		for (int i = 0; i < repeat; ++i) {
 			//shuffle(instList.begin(), instList.end(), rgen);
 			for (auto inst = instList.begin(); inst != instList.end(); ++inst) {

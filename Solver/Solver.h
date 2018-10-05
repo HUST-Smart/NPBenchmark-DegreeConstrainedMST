@@ -142,17 +142,17 @@ public:
 
         String solutionPathWithTime() const { return slnPath + "." + localTime; }
 
-        //String visualizPath() const { return DefaultVisualizationDir() + friendlyInstName() + "." + localTime + ".html"; }
-        //template<typename T>
-        //String visualizPath(const T &msg) const { return DefaultVisualizationDir() + friendlyInstName() + "." + localTime + "." + std::to_string(msg) + ".html"; }
-        String friendlyInstName() const { // friendly to file system (without special char).
-            auto pos = instPath.find_last_of('/');
-            return (pos == String::npos) ? instPath : instPath.substr(pos + 1);
-        }
-        String friendlyLocalTime() const { // friendly to human.
-            return localTime.substr(0, 4) + "-" + localTime.substr(4, 2) + "-" + localTime.substr(6, 2)
-                + "_" + localTime.substr(8, 2) + ":" + localTime.substr(10, 2) + ":" + localTime.substr(12, 2);
-        }
+		//String visualizPath() const { return DefaultVisualizationDir() + friendlyInstName() + "." + localTime + ".html"; }
+		//template < typename T>
+		//String visualizPath(const T &msg) const { return DefaultVisualizationDir() + friendlyInstName() + "." + localTime + "." + std::to_string(msg) + ".html"; }
+		String friendlyInstName() const { // friendly to file system (without special char). 
+		auto pos = instPath.find_last_of('/');
+		return (pos == String::npos) ? instPath : instPath.substr(pos + 1);
+		}
+		String friendlyLocalTime() const { // friendly to human. 
+			return localTime.substr(0, 4) + "-" + localTime.substr(4, 2) + "-" + localTime.substr(6, 2)
+				+ "_" + localTime.substr(8, 2) + ":" + localTime.substr(10, 2) + ":" + localTime.substr(12, 2);
+		}
 
         // essential information.
         String instPath;

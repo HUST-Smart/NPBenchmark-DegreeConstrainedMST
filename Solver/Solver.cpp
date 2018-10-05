@@ -256,40 +256,18 @@ namespace szx {
 	}
 
 	void Solver::init() {
-		//aux.isCompatible.resize(input.flights().size(), List<bool>(input.airport().gates().size(), true));
-		//ID f = 0;
-		//for (auto flight = input.flights().begin(); flight != input.flights().end(); ++flight, ++f) {
-		//    for (auto ig = flight->incompatiblegates().begin(); ig != flight->incompatiblegates().end(); ++ig) {
-		//        aux.isCompatible[f][*ig] = false;
-		//    }
-		//}
 	}
 
 	bool Solver::optimize(Solution &sln, ID workerId) {
-		Log(LogSwitch::Szx::Framework) << "worker " << workerId << " starts." << endl;
 
-		//ID gateNum = input.airport().gates().size();   //停机位数量
-		//ID bridgeNum = input.airport().bridgenum();    //近机位数量
-		//ID flightNum = input.flights().size();         //航班数量
+		Log(LogSwitch::Szx::Framework) << "worker " << workerId << " starts." << endl;
 
 		ID nodeNum = input.graph().nodes().size();
 		ID edgeNum = input.graph().edges().size();
 
-		//bool status = true;
-		//auto &assignments(*sln.mutable_assignments());    //output的航班停靠的停机位列表，一维数组
-		//assignments.Resize(flightNum, Problem::InvalidId);
-		//sln.flightNumOnBridge = 0;
-
 		// reset solution state.
 		bool status = true;
-		//auto &edges(*sln.mutable_edges());
 		sln.edgeLengthSumOnTree = 0;
-
-
-		//for (ID f = 0; !timer.isTimeOut() && (f < flightNum); ++f) {
-		//    assignments[f] = rand.pick(gateNum);                                 //随机给id为f的航班安排停机位
-		//    if (assignments[f] < bridgeNum) { ++sln.flightNumOnBridge; } // record obj.
-		//}
 
 		// TODO[0]: replace the following random assignment with your own algorithm.
 		for (int e = 0; !timer.isTimeOut() && (e < nodeNum - 1); ++e) {
