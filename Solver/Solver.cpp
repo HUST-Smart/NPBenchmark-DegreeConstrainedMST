@@ -154,7 +154,7 @@ namespace szx {
 
 #pragma region Solver
 	bool Solver::solve() {
-		init();
+		//init();
 
 		int workerNum = (max)(1, env.jobNum / cfg.threadNumPerWorker);
 		cfg.threadNumPerWorker = env.jobNum / workerNum;
@@ -173,13 +173,13 @@ namespace szx {
 
 		Log(LogSwitch::Szx::Framework) << "collect best result among all workers." << endl;
 		int bestIndex = -1;
-		Length bestWidth = 0;
+		Length bestValue = 1000000;
 		for (int i = 0; i < workerNum; ++i) {    //一个工作者一个算例多种求解方法的比较
 			if (!success[i]) { continue; }
 			Log(LogSwitch::Szx::Framework) << "worker " << i << " got " << solutions[i].edgeLengthSumOnTree << endl;
-			if (solutions[i].edgeLengthSumOnTree <= bestWidth) { continue; }
+			if (solutions[i].edgeLengthSumOnTree >= bestValue) { continue; }
 			bestIndex = i;
-			bestWidth = solutions[i].edgeLengthSumOnTree;
+			bestValue = solutions[i].edgeLengthSumOnTree;
 		}
 
 		env.rid = to_string(bestIndex);
