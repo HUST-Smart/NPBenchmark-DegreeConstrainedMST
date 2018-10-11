@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 		inputPath = argv[1];
 	}
 	else {
-	cout << "input path: " << flush;
+		cerr << "input path: " << flush;
 		cin >> inputPath;
 	}
 
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 		outputPath = argv[2];
 	}
 	else {
-		cout << "output path: "<< flush;
+		cerr << "output path: "<< flush;
 		cin >> outputPath;
 	}
 
@@ -90,5 +90,7 @@ int main(int argc, char *argv[]) {
 	else;
 	edgeLengthSumOnTree = checkcons.GetObj();
 
-	return (error == 0) ? edgeLengthSumOnTree : ~error;
+	int returnCode = (error == 0) ? edgeLengthSumOnTree : ~error;
+	cout << returnCode << endl;
+	return returnCode;
 }
