@@ -47,9 +47,9 @@ namespace xxf {
 	{
 		for (int u = 0; u < inputins.graph().nodes().size(); u++)
 			if (!visited[u])
-				if (isCyclicUtil(u, -1))return true;
+				if (isCyclicUtil(u, -1))return false;
 		std::cout << "Exist loop." << std::endl;
-		return false;
+		return true;
 	}
 
 	int CheckConstraints::checkNodeDegree() {

@@ -65,6 +65,11 @@ int main(int argc, char *argv[]) {
 	for (auto edgeOnTree = output.edges().begin(); edgeOnTree != output.edges().end(); ++edgeOnTree)
 	{
 		edgeFlag[edgeOnTree->id()] ++;
+		if (edgeOnTree->id() < 0 || (edgeOnTree->id() >= input.graph().edges().size()))
+		{
+			error |= CheckerFlag::FormatError;
+			cout << "The edgeOnTree " << edgeOnTree->id() << " is not exist." << endl;
+		}
 		for (auto edge = input.graph().edges().begin(); edge != input.graph().edges().end(); ++edge) {
 			if (edgeOnTree->id() == edge->id())                //¼ì²é±ßÊÇ·ñ´æÔÚ
 			{
@@ -78,7 +83,7 @@ int main(int argc, char *argv[]) {
 	}
 	// check constrains
 	xxf::CheckConstraints checkcons(output, input);
-	if (!checkcons.isCyclic()) { error |= CheckerFlag::LoopExistError; }
+	if (checkcons.isCyclic()) { error |= CheckerFlag::LoopExistError; }
 	int errorFlag = checkcons.checkNodeDegree();
 	if (errorFlag == 1) { error |= CheckerFlag::DegreeOverError; }
 	else if (errorFlag == 2) { error |= CheckerFlag::NodeNotCorveredError; }
