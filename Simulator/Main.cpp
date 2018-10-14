@@ -2,15 +2,15 @@
 
 
 using namespace std;
-using namespace szx;
+using namespace xxf;
 
 
 int main() {
     Simulator::initDefaultEnvironment();
 
     Simulator sim;
-    sim.debug();
-    //sim.benchmark(1);
+    //sim.debug();
+    sim.benchmark(1);
     //sim.parallelBenchmark(1);
     //sim.generateInstance();
 

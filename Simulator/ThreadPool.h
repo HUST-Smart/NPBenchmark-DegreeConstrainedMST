@@ -4,8 +4,8 @@
 /// note  : 1.	
 ////////////////////////////////
 
-#ifndef SZX_CPPUTILIBS_THREAD_POOL_H
-#define SZX_CPPUTILIBS_THREAD_POOL_H
+#ifndef XXF_CPPUTILIBS_THREAD_POOL_H
+#define XXF_CPPUTILIBS_THREAD_POOL_H
 
 
 #include <atomic>
@@ -18,7 +18,7 @@
 #include <utility>
 
 
-namespace szx {
+namespace xxf {
 
 namespace impl {
 

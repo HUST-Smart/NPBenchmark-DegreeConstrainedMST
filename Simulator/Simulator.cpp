@@ -16,7 +16,7 @@
 using namespace std;
 
 
-namespace szx {
+namespace xxf {
 
 	void Simulator::initDefaultEnvironment() {
 		Solver::Environment env;

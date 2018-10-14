@@ -5,8 +5,8 @@
 /// note  : 1.	tag macros with [on/off] to indicate prefered state.
 ////////////////////////////////
 
-#ifndef SMART_SZX_GATE_ASSIGNMENT_CONFIG_H
-#define SMART_SZX_GATE_ASSIGNMENT_CONFIG_H
+#ifndef SMART_XXF_DEGREECONSTRAINED_CONFIG_H
+#define SMART_XXF_DEGREECONSTRAINED_CONFIG_H
 
 
 #pragma region PlatformCheck

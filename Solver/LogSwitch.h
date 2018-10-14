@@ -4,18 +4,18 @@
 /// note  : 1.	
 ////////////////////////////////
 
-#ifndef SMART_SZX_GATE_ASSIGNMENT_LOG_SWITCH_H
-#define SMART_SZX_GATE_ASSIGNMENT_LOG_SWITCH_H
+#ifndef SMART_XXF_DEGREECONSTRAINED_LOG_SWITCH_H
+#define SMART_XXF_DEGREECONSTRAINED_LOG_SWITCH_H
 
 
 #include "Utility.h"
 
 
-namespace szx {
+namespace xxf {
 
 struct LogSwitch {
     // TODO[szx][0]: turn off all logs before the release.
-    enum Szx {
+    enum Xxf {
         Main = Log::Level::Info,
         Cli = Log::Level::Off,
         Framework = Log::Level::Debug,

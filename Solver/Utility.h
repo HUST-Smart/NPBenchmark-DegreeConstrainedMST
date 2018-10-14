@@ -4,8 +4,8 @@
 /// note  : 1.	
 ////////////////////////////////
 
-#ifndef SMART_SZX_GATE_ASSIGNMENT_UTILITY_H
-#define SMART_SZX_GATE_ASSIGNMENT_UTILITY_H
+#ifndef SMART_XXF_DEGREECONSTRAINED_UTILITY_H
+#define SMART_XXF_DEGREECONSTRAINED_UTILITY_H
 
 
 #include "Config.h"
@@ -35,7 +35,7 @@
 #define UTILITY_DATE_TIME_CPP_STYLE  0
 
 
-namespace szx {
+namespace xxf {
 
 // if there is "#define x  y", VERBATIM_STRINGIFY(x) will get "x".
 #define VERBATIM_STRINGIFY(x)  #x

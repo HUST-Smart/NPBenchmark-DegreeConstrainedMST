@@ -4,8 +4,8 @@
 /// note  : 1.	
 ////////////////////////////////
 
-#ifndef SMART_SZX_GATE_ASSIGNMENT_COMMON_H
-#define SMART_SZX_GATE_ASSIGNMENT_COMMON_H
+#ifndef SMART_XXF_DEGREECONSTRAINED_COMMON_H
+#define SMART_XXF_DEGREECONSTRAINED_COMMON_H
 
 
 #include <vector>
@@ -14,7 +14,7 @@
 #include <string>
 
 
-namespace szx {
+namespace xxf {
 
 // zero-based consecutive integer identifier.
 using ID = int;

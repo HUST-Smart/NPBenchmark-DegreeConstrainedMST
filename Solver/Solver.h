@@ -4,8 +4,8 @@
 /// note  : 1.	
 ////////////////////////////////
 
-#ifndef SMART_SZX_GATE_ASSIGNMENT_SOLVER_H
-#define SMART_SZX_GATE_ASSIGNMENT_SOLVER_H
+#ifndef SMART_XXF_DEGREECONSTRAINED_SOLVER_H
+#define SMART_XXF_DEGREECONSTRAINED_SOLVER_H
 
 
 #include "Config.h"
@@ -22,7 +22,7 @@
 #include "Problem.h"
 
 
-namespace szx {
+namespace xxf {
 
 class Solver {
     #pragma region Type

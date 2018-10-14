@@ -17,7 +17,7 @@
 #include "../Solver/Utility.h"
 
 
-namespace szx {
+namespace xxf {
 
 using Cmd = Solver::Cli;
 using Env = Solver::Environment;

@@ -14,11 +14,11 @@
 using namespace std;
 
 
-namespace szx {
+namespace xxf {
 
 #pragma region Solver::Cli
 	int Solver::Cli::run(int argc, char * argv[]) {
-		Log(LogSwitch::Szx::Cli) << "parse command line arguments." << endl;
+		Log(LogSwitch::Xxf::Cli) << "parse command line arguments." << endl;
 		Set<String> switchSet;
 		Map<String, char*> optionMap({ // use string as key to compare string contents instead of pointers.
 			{ InstancePathOption(), nullptr },
@@ -43,7 +43,7 @@ namespace szx {
 			}
 		}
 
-		Log(LogSwitch::Szx::Cli) << "execute commands." << endl;
+		Log(LogSwitch::Xxf::Cli) << "execute commands." << endl;
 		if (switchSet.find(HelpSwitch()) != switchSet.end()) {
 			cout << HelpInfo() << endl;
 		}
@@ -59,7 +59,7 @@ namespace szx {
 		Solver::Configuration cfg;
 		cfg.load(env.cfgPath);
 
-		Log(LogSwitch::Szx::Input) << "load instance " << env.instPath << " (seed=" << env.randSeed << ")." << endl;
+		Log(LogSwitch::Xxf::Input) << "load instance " << env.instPath << " (seed=" << env.randSeed << ")." << endl;
 		Problem::Input input;
 		if (!input.load(env.instPath)) { return -1; }
 
@@ -161,7 +161,7 @@ namespace szx {
 		List<Solution> solutions(workerNum, Solution(this));
 		List<bool> success(workerNum);
 
-		Log(LogSwitch::Szx::Framework) << "launch " << workerNum << " workers." << endl;
+		Log(LogSwitch::Xxf::Framework) << "launch " << workerNum << " workers." << endl;
 		List<thread> threadList;
 		threadList.reserve(workerNum);
 		for (int i = 0; i < workerNum; ++i) {
@@ -171,12 +171,12 @@ namespace szx {
 		}
 		for (int i = 0; i < workerNum; ++i) { threadList.at(i).join(); }
 
-		Log(LogSwitch::Szx::Framework) << "collect best result among all workers." << endl;
+		Log(LogSwitch::Xxf::Framework) << "collect best result among all workers." << endl;
 		int bestIndex = -1;
 		Length bestValue = 1000000;
 		for (int i = 0; i < workerNum; ++i) {    //一个工作者一个算例多种求解方法的比较
 			if (!success[i]) { continue; }
-			Log(LogSwitch::Szx::Framework) << "worker " << i << " got " << solutions[i].edgeLengthSumOnTree << endl;
+			Log(LogSwitch::Xxf::Framework) << "worker " << i << " got " << solutions[i].edgeLengthSumOnTree << endl;
 			if (solutions[i].edgeLengthSumOnTree >= bestValue) { continue; }
 			bestIndex = i;
 			bestValue = solutions[i].edgeLengthSumOnTree;
@@ -260,7 +260,7 @@ namespace szx {
 
 	bool Solver::optimize(Solution &sln, ID workerId) {
 
-		Log(LogSwitch::Szx::Framework) << "worker " << workerId << " starts." << endl;
+		Log(LogSwitch::Xxf::Framework) << "worker " << workerId << " starts." << endl;
 
 		ID nodeNum = input.graph().nodes().size();
 		ID edgeNum = input.graph().edges().size();
@@ -281,7 +281,7 @@ namespace szx {
 		}
 
 
-		Log(LogSwitch::Szx::Framework) << "worker " << workerId << " ends." << endl;
+		Log(LogSwitch::Xxf::Framework) << "worker " << workerId << " ends." << endl;
 		return status;
 	}
 #pragma endregion Solver

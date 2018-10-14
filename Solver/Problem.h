@@ -4,8 +4,8 @@
 /// note  : 1.	
 ////////////////////////////////
 
-#ifndef SMART_SZX_GATE_ASSIGNMENT_PROBLEM_H
-#define SMART_SZX_GATE_ASSIGNMENT_PROBLEM_H
+#ifndef SMART_XXF_DEGREECONSTRAINED_PROBLEM_H
+#define SMART_XXF_DEGREECONSTRAINED_PROBLEM_H
 
 
 #include "Config.h"
@@ -19,7 +19,7 @@
 #include "DegreeConstrainedMST.pb.h"
 
 
-namespace szx {
+namespace xxf {
 
 	class Problem {
 #pragma region Type

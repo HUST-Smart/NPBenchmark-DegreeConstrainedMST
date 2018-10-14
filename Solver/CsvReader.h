@@ -4,8 +4,8 @@
 /// note  : 1.	
 ////////////////////////////////
 
-#ifndef SMART_SZX_GATE_ASSIGNMENT_CSV_READER_H
-#define SMART_SZX_GATE_ASSIGNMENT_CSV_READER_H
+#ifndef SMART_XXF_DEGREECONSTRAINED_CSV_READER_H
+#define SMART_XXF_DEGREECONSTRAINED_CSV_READER_H
 
 
 #include <iostream>
@@ -17,10 +17,10 @@
 
 
 // [off] increase readability instead of stabilization in debug mode (avoid stack overflow).
-#define SMART_SZX_GATE_ASSIGNMENT_CSV_READER_RECURSIVE_VERSION  0
+#define SMART_XXF_DEGREECONSTRAINED_CSV_READER_RECURSIVE_VERSION  0
 
 
-namespace szx {
+namespace xxf {
 
 class CsvReader {
 public:

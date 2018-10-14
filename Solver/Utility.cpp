@@ -11,7 +11,7 @@
 using namespace std;
 
 
-namespace szx {
+namespace xxf {
 
 System::MemoryUsage System::memoryUsage() {
     MemoryUsage mu = { 0, 0 };
