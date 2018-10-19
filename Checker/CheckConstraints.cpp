@@ -17,14 +17,22 @@ namespace xxf {
 		for (auto edgeOnTree = output.edges().begin(); edgeOnTree != output.edges().end(); ++edgeOnTree)   //邻接表初始化,更新每个节点的度
 		{
 			Edge edge;
+			Edge edge1;
 			edge.set_id(edgeOnTree->id());
 			edge.set_source(edgeOnTree->source());
 			edge.set_target(edgeOnTree->target());
 			edge.set_length(edgeOnTree->length());
+
+			edge1.set_id(edgeOnTree->id());
+			edge1.set_source(edgeOnTree->target());
+			edge1.set_target(edgeOnTree->source());
+			edge1.set_length(edgeOnTree->length());
+
 			Degree[edge.source()]++;
 			Degree[edge.target()]++;
+
 			AdjList[edge.source()].push_back(edge);
-			AdjList[edge.target()].push_back(edge);
+			AdjList[edge.target()].push_back(edge1);
 			obj += edge.length();
 		}
 	}
@@ -38,18 +46,22 @@ namespace xxf {
 			{
 				if (isCyclicUtil(AdjList[node][i].target(), node))return true;
 			}
-			else if (AdjList[node][i].target() == parent)return true;
+			else if (AdjList[node][i].target() != parent)return true;//有环
 		}
-		return false;
+		return false;    //无环
 	}
 
 	bool CheckConstraints::isCyclic()
 	{
-		for (int u = 0; u < inputins.graph().nodes().size(); u++)
+		for (int u = 0; u < inputins.graph().nodes().size(); u++) {
 			if (!visited[u])
-				if (isCyclicUtil(u, -1))return false;
-		std::cout << "Exist loop." << std::endl;
-		return true;
+				if (isCyclicUtil(u, -1)) {
+					std::cout << "Exist loop." << std::endl;
+					return true;        //有环
+				}
+		}
+		std::cout << "NotExist loop." << std::endl;
+		return false;  //无环
 	}
 
 	int CheckConstraints::checkNodeDegree() {
