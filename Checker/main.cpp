@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
 	if (output.edges().size() == 0)
 	{
 		error |= CheckerFlag::FormatError;
-		cout << "The solution is empty." << endl;
+        cerr << "The solution is empty." << endl;
 	}  //解为空
 	vector<int> edgeFlag(input.graph().edges().size(), 0);    //记录边是否重复标记
 	for (auto edgeOnTree = output.edges().begin(); edgeOnTree != output.edges().end(); ++edgeOnTree)
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 		if (edgeOnTree->id() < 0 || (edgeOnTree->id() >= input.graph().edges().size()))
 		{
 			error |= CheckerFlag::FormatError;
-			cout << "The edgeOnTree " << edgeOnTree->id() << " is not exist." << endl;
+            cerr << "The edgeOnTree " << edgeOnTree->id() << " is not exist." << endl;
 		}
 		for (auto edge = input.graph().edges().begin(); edge != input.graph().edges().end(); ++edge) {
 			if (edgeOnTree->id() == edge->id())                //检查边是否存在
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 				if (((edgeOnTree->source() != edge->source()) || (edgeOnTree->target() != edge->target()) || (edgeOnTree->length() != edge->length())) || (edgeFlag[edgeOnTree->id()] >= 2))  //检查边是否重复
 				{
 					error |= CheckerFlag::FormatError;
-					cout << "The edgeOnTree " << edgeOnTree->id() << " is not exist or repeated." << endl;
+					cerr << "The edgeOnTree " << edgeOnTree->id() << " is not exist or repeated." << endl;
 				}
 			}
 		}

@@ -56,11 +56,11 @@ namespace xxf {
 		for (int u = 0; u < inputins.graph().nodes().size(); u++) {
 			if (!visited[u])
 				if (isCyclicUtil(u, -1)) {
-					std::cout << "Exist loop." << std::endl;
+					std::cerr << "Exist loop." << std::endl;
 					return true;        //有环
 				}
 		}
-		std::cout << "NotExist loop." << std::endl;
+		std::cerr << "NotExist loop." << std::endl;
 		return false;  //无环
 	}
 
@@ -71,12 +71,12 @@ namespace xxf {
 		for (int i = 0; i < inputins.graph().nodes().size(); i++)
 		{
 			if (Degree[i] == 0) {
-				std::cout << "The node "<<i <<" is not covered."<< std::endl;
+				std::cerr << "The node "<<i <<" is not covered."<< std::endl;
 				nodecoverFlag = false;
 			}
 			else if (Degree[i] > inputins.maxdegree())
 			{
-				std::cout << "The degree of node " << i << " dissatisfies constraint ." << std::endl;
+				std::cerr << "The degree of node " << i << " dissatisfies constraint ." << std::endl;
 				degreeconsFlag = false;
 			}
 			else;
